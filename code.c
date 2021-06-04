@@ -1,4 +1,6 @@
 #include "tm4c123gh6pm.h"
+#include "stdint.h"
+#include "math.h"
 //functions Prototype for LCD
 void displayDistance(void);
 void DistanceToString(void);
@@ -13,7 +15,7 @@ int distanceInInteger =0;
 char distanceInString [3] ={0};
 int  distanceInArray [3] ={0};
 ////////////////////////////////
-//Global Varible need for all the functions
+//Global Varible needed for all the functions
 float commultiveDistance =166.985;     //set it for many values for testing
 /////////////////////////////////
 //function Prototype for LED
