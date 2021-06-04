@@ -106,8 +106,9 @@ GPIO_PORTF_DIR_R |= 0x08;
 void GreenLED_Status(){ // this function turns green led on when we reached 100 or more meters
 
 	if(commultiveDistance>=100){
-GPIO_PORTF_DATA_R |= 0x08;	
+           GPIO_PORTF_DATA_R |= 0x08;	
 	}
+}
 	
 
 //main
