@@ -2,10 +2,12 @@
 
 //function Prototype for LCD
 void displayDistance(void);
+void DistanceToString(void);
 void LCD_Command(unsigned char );
 void LCD_Data(unsigned char );
 void delay_micro(int );
 void delay_milli(int );
+
 
 void LCD_Init(void){
 	
@@ -77,6 +79,30 @@ int main()
   
 }
 
+void DistanceToString() {		 
+		/*
+			this function convert the commultive distance to c style string with an algorithm that first take the distance and use remainder operator to get
+			the last numeber and then store it in array we repet this untill we get all numbers in a int arary , but they are reversed so we use revered function
+			to restore it correctly
+	
+		*/
+	
+	int i =0;	 
+	distanceInInteger = (int) commultiveDistance;	
+	  	
+    while (distanceInInteger!=0) {
+        distanceInArray[i] = (distanceInInteger % 10);
+        distanceInInteger /= 10;
+				i++;
+    }
+
+		while(i<3){
+			distanceInArray[i] =0;    // if the number is less than 3 number i will apper like this  090,044
+			i++;
+		}
+		
+    reverse(i);
+}
 
 void displayDistance(){
 	/*
