@@ -8,7 +8,7 @@ void LCD_Command(unsigned char );
 void LCD_Data(unsigned char );
 void delay_micro(int );
 void delay_milli(int );
-///////////////////////////////
+///////////////////////////
 
 
 void LCD_Init(void){
