@@ -3,6 +3,7 @@
 //function Prototype for LCD
 void displayDistance(void);
 void LCD_Command(unsigned char command);
+void LCD_Data(unsigned char data);
 void delay_micro(int n);
 void delay_milli(int n);
 
@@ -138,6 +139,20 @@ void LCD_Command(unsigned char command){
 		delay_micro(37);
 	}
 }
+
+
+void LCD_Data(unsigned char data){
+	GPIO_PORTA_DATA_R |= 0x20;    
+	GPIO_PORTA_DATA_R &= ~0xC0;   //set R0=1, Rw=0 , E=0 to enable writing to data register in LCD
+
+	GPIO_PORTB_DATA_R = data;     //assign data to portB 
+	
+	GPIO_PORTA_DATA_R |= 0x80;    
+	delay_micro(0);
+	GPIO_PORTA_DATA_R &= ~0x80;   //assigning enpulse to Enable 
+	delay_micro(0);
+}
+
 
 
 void delay_micro(int n){
