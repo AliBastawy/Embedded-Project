@@ -1,5 +1,8 @@
 #include "tm4c123gh6pm.h"
 
+//function Prototype for LCD
+void displayDistance(void);
+
 
 
 void LCD_Init(void){
