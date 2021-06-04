@@ -166,7 +166,7 @@ void DistanceToString() {
     
 
 	distanceInInteger = (int) commultiveDistance;	
-	distanceDoublePart = ((commultiveDistance- distanceIntegerPart)*10); //we should get the double part by this way but float have soe issues 
+	distanceDoublePart = ((commultiveDistance- distanceInInteger)*10); //we should get the double part by this way but float have soe issues 
 
 	
     while (distanceInInteger!=0) {
