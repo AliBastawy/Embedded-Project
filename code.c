@@ -1,10 +1,22 @@
 #include "tm4c123gh6pm.h"
 //function Prototype for LCD
 void displayDistance(void);
+void DistanceToString(void);
+void reverse(int);
 void LCD_Command(unsigned char );
 void LCD_Data(unsigned char );
 void delay_micro(int );
 void delay_milli(int );
+///////////////////////////
+//Global variable needed for LCD functions
+int distanceInInteger =0;
+char distanceInString [3] ={0};
+int  distanceInArray [3] ={0};
+////////////////////////////////
+//Global Varible need for all the functions
+float commultiveDistance =166.985;     //set it for many values for testing
+/////////////////////////////////
+
 
 
 
@@ -102,7 +114,6 @@ int main()
   
 }
 
-
 void displayDistance(){
 	/*
 	this function only Prints on the LCD in the first line "  Distance:  " then i move the curser in the second line and make some spaces 
@@ -149,6 +160,48 @@ void displayDistance(){
 
 	delay_milli(500);	
 }
+
+void reverse(int length){
+	/*this function reverse the int array to get each position right when display and it add each intger to '0' which conver the sum to charchter
+	and store it in char array to be displayed on LCD
+	
+	*/
+    int i = 0;
+	  int j = length-1;
+	
+    while (j>=0) {
+        distanceInString[i] = distanceInArray[j]+ '0';
+        i++;
+        j--;
+    }
+}
+  
+
+void DistanceToString() {		 
+		/*
+			this function convert the commultive distance to c style string with an algorithm that first take the distance and use remainder operator to get
+			the last numeber and then store it in array we repet this untill we get all numbers in a int arary , but they are reversed so we use revered function
+			to restore it correctly
+	
+		*/
+	
+	int i =0;	 
+	distanceInInteger = (int) commultiveDistance;	
+	  	
+    while (distanceInInteger!=0) {
+        distanceInArray[i] = (distanceInInteger % 10);
+        distanceInInteger /= 10;
+				i++;
+    }
+
+		while(i<3){
+			distanceInArray[i] =0;    // if the number is less than 3 number i will apper like this  090,044
+			i++;
+		}
+		
+    reverse(i);
+}
+
 
 void LCD_Command(unsigned char command){
 	GPIO_PORTA_DATA_R &= ~0xE0;    //set R0=0, Rw=0 , E=0 to enable writing to command register in LCD
