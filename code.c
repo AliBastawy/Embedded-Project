@@ -3,7 +3,7 @@
 //function Prototype for LCD
 void displayDistance(void);
 void DistanceToString(void);
-void reverse(int);
+void reverse();
 void LCD_Command(unsigned char );
 void LCD_Data(unsigned char );
 void delay_micro(int );
@@ -178,7 +178,7 @@ void DistanceToString() {
 			i++;
 		}
 		
-    reverse(i);
+    reverse();
     distanceInString[i++] = '.';
     distanceInString[i++] = distanceDoublePart+ '0';
 }
