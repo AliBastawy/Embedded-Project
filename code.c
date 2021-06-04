@@ -2,8 +2,7 @@
 
 //function Prototype for LCD
 void displayDistance(void);
-
-
+void LCD_Command(unsigned char command);
 
 void LCD_Init(void){
 	
@@ -65,7 +64,7 @@ void GPS_Init()
 
 }
 
-void LCD_Command(unsigned char command);
+
 
 int main()
 {
