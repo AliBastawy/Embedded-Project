@@ -1,5 +1,5 @@
 #include "tm4c123gh6pm.h"
-//function Prototype for LCD
+//functions Prototype for LCD
 void displayDistance(void);
 void DistanceToString(void);
 void reverse(int);
