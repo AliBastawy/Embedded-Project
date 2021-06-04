@@ -163,10 +163,12 @@ void DistanceToString() {
 		*/
 	
 	int i =0;
-        //distancedoublePart = ((distance- distanceIntegerPart)*10); //we should get the double part by this way but float have soe issues 
+    
 
 	distanceInInteger = (int) commultiveDistance;	
-	  	
+	distanceDoublePart = ((commultiveDistance- distanceIntegerPart)*10); //we should get the double part by this way but float have soe issues 
+
+	
     while (distanceInInteger!=0) {
         distanceInArray[i] = (distanceInInteger % 10);
         distanceInInteger /= 10;
