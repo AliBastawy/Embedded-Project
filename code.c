@@ -9,12 +9,14 @@ void LCD_Data(unsigned char );
 void delay_micro(int );
 void delay_milli(int );
 ///////////////////////////
-//Global variable needed for LCD
+//Global variable needed for LCD functions
 int distanceInInteger =0;
 char distanceInString [3] ={0};
 int  distanceInArray [3] ={0};
 ////////////////////////////////
-
+//Global Varible need for all the functions
+float commultiveDistance =166.985;     //set it for many values for testing
+///////////////////////////////
 void LCD_Init(void){
 	
 	/*
