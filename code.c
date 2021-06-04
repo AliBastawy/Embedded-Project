@@ -41,10 +41,31 @@ void LCD_Init(void){
 	LCD_Command(0x01);   //clear screen command
 }
 
+void GPS_Init()
+{ 	// Initialize Port A0 and A1 to be used as UART for GPS
+	
+	SYSCTL_RCGCUART_R |= 0x0001; // activate UART0
+	SYSCTL_RCGCUART_R |= 0x0001; // activate port A
+	UART0_CTL_R &= ~0x0001; // disable UART
+	
+	// Buad Rate = 9600, UART System Clock = 16 MHz
+	UART0_IBRD_R = 104; // IBRD = int (16*10^6 / (16 * 9600))
+	UART0_FBRD_R = 11; // FBRD = int (Decimal *64 + 0.5) 
+	
+	UART0_LCRH_R = 0x0070; // Enable FIFO & 8-bit length -> 01110000
+	UART0_CTL_R = 0x0201; // Enable Rx and UART
+	
+	GPIO_PORTA_AMSEL_R &= ~0x03; // NO ANALOG on pin PA1-0
+	GPIO_PORTA_DEN_R |= 0x03; // Enable Digital on PA1-0
+	GPIO_PORTA_AFSEL_R |= 0x03; // Alternate functions of PA1-0 
+	GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R &~ 0x00000011) + 0x00000011; // Enable U0Rx AND U0Tx
+
+}
 
 int main()
 {
 
   LCD_Init();
+  GPS_Init()
   
 }
