@@ -1,5 +1,5 @@
 #include "tm4c123gh6pm.h"
-
+#include "tm4c123.h"
 //function Prototype for LCD
 void displayDistance(void);
 void DistanceToString(void);
@@ -85,6 +85,7 @@ void GPS_Init()
 
 int main()
 {
+SCB->CPACR |= ((3UL << 10*2) | (3UL << 11*2) ); //to force keil to support floating point representation
 
 
   GPS_Init();
