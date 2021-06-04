@@ -9,7 +9,11 @@ void LCD_Data(unsigned char );
 void delay_micro(int );
 void delay_milli(int );
 ///////////////////////////
-
+//Global variable needed for LCD
+int distanceInInteger =0;
+char distanceInString [3] ={0};
+int  distanceInArray [3] ={0};
+////////////////////////////////
 
 void LCD_Init(void){
 	
