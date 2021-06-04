@@ -1,3 +1,7 @@
+#include "tm4c123gh6pm.h"
+
+
+
 void LCD_Init(void){
 	
 	/*
@@ -37,9 +41,10 @@ void LCD_Init(void){
 	LCD_Command(0x01);   //clear screen command
 }
 
+
 int main()
 {
-  
+
   LCD_Init();
   
 }
