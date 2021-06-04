@@ -1,15 +1,15 @@
 #include "tm4c123gh6pm.h"
-
 //function Prototype for LCD
 void displayDistance(void);
 void LCD_Command(unsigned char );
 void LCD_Data(unsigned char );
 void delay_micro(int );
 void delay_milli(int );
+//function Prototype for LED
+void GreenLED_Status(int );
 
 void LCD_Init(void){
-	
-	/*
+		/*
 	here we want to initiallize all the pins in Port B  and PA5 PA6 PA7 In port A we use port B for the data and command for LCD
 	and PA5 is the Rs(register selector) , PA6 is RW and PA7 E. we make all these Pins GPIO , Digtal , Output and enable change to
         them   and finnaly set some command to initialize the LCD like clear,8-bit data,...	
@@ -67,8 +67,20 @@ void GPS_Init()
 
 }
 
-
-
+void GreenLED_Status(uint8_t distance){ // this function turns green led on when we reached 100 or more meters
+SYSCTL_RCGCGPIO_R |=0x20;
+while ((SYSCTL_PRGPIO_R&0x20)==0);
+GPIO_PORTF_LOCK_R  =	GPIO_LOCK_KEY;
+GPIO_PORTF_CR_R |=0x08;
+GPIO_PORTF_AMSEL_R &= ~(0x08);
+GPIO_PORTF_AFSEL_R &= ~(0x08);
+GPIO_PORTF_PCTL_R &= 0xFFFF0FFF;
+GPIO_PORTF_DEN_R |= 0x08;
+GPIO_PORTF_DIR_R |= 0x08;
+	if(distance>=100){
+GPIO_PORTF_DATA_R |= 0x08;	
+	}
+  
 int main()
 {
 
@@ -175,3 +187,4 @@ void delay_milli(int n){
 
 
 
+}
