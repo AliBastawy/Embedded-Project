@@ -121,7 +121,7 @@ void displayDistance(){
 		delay_milli(1);
 	}
 			
-	intToStr();         // convert commulative distance to string
+	DistanceToString();         // convert commulative distance to string
 
 	for(i = 0; i<3;i++){
  		LCD_Data(distanceInString[i]);   //outputing commulative distance sting
