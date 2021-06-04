@@ -19,7 +19,7 @@ int  distanceInArray [3] ={0};
 float commultiveDistance =166.985;     //set it for many values for testing
 /////////////////////////////////
 //function Prototype for LED
-void GreenLED_Status(int );
+void GreenLED_Status();
 void GreenLed_Inti();
 
 void LCD_Init(void){
@@ -94,9 +94,9 @@ GPIO_PORTF_DIR_R |= 0x08;
 
 }
 
-void GreenLED_Status(uint8_t distance){ // this function turns green led on when we reached 100 or more meters
+void GreenLED_Status(){ // this function turns green led on when we reached 100 or more meters
 
-	if(distance>=100){
+	if(commultiveDistance>=100){
 GPIO_PORTF_DATA_R |= 0x08;	
 	}
   
