@@ -72,8 +72,8 @@ void GPS_Init()
 int main()
 {
 
-  LCD_Init();
-  GPS_Init()
+
+  GPS_Init();
   
 }
 
