@@ -4,6 +4,7 @@
 void displayDistance(void);
 void LCD_Command(unsigned char command);
 void delay_micro(int n);
+void delay_milli(int n);
 
 void LCD_Init(void){
 	
@@ -144,6 +145,15 @@ void delay_micro(int n){
 	int i,j;
 	for(i=0 ; i<n ; i++){
 			for(j=0;j<3;j++){
+			}
+	}
+}
+
+void delay_milli(int n){
+	//function that delay the processor with approximately the parameter milliseconds  
+	int i,j;
+	for(i=0 ; i<n ; i++){
+			for(j=0;j<3180;j++){
 			}
 	}
 }
