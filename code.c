@@ -11,7 +11,7 @@ void delay_milli(int );
 ///////////////////////////
 //Global variable needed for LCD functions
 int distanceInInteger =0;
-char distanceInString [10] ={0};
+char distanceInString [5] ={0};
 int  distanceInArray [3] ={0};
 int distanceDoublePart=0;
 
