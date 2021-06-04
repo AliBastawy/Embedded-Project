@@ -2,10 +2,10 @@
 
 //function Prototype for LCD
 void displayDistance(void);
-void LCD_Command(unsigned char command);
-void LCD_Data(unsigned char data);
-void delay_micro(int n);
-void delay_milli(int n);
+void LCD_Command(unsigned char );
+void LCD_Data(unsigned char );
+void delay_micro(int );
+void delay_milli(int );
 
 void LCD_Init(void){
 	
