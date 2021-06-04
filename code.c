@@ -16,20 +16,6 @@ int  distanceInArray [3] ={0};
 //Global Varible need for all the functions
 float commultiveDistance =166.985;     //set it for many values for testing
 /////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //function Prototype for LED
 void GreenLED_Status(int );
 
