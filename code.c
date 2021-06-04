@@ -20,6 +20,7 @@ float commultiveDistance =166.985;     //set it for many values for testing
 /////////////////////////////////
 //function Prototype for LED
 void GreenLED_Status(int );
+void GreenLed_Inti();
 
 void LCD_Init(void){
 		/*
@@ -79,8 +80,8 @@ void GPS_Init()
 	GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R &~ 0x00000011) + 0x00000011; // Enable U0Rx AND U0Tx
 
 }
+void GreenLed_Inti(){  	// Initialize PF3  to be used as Green Led
 
-void GreenLED_Status(uint8_t distance){ // this function turns green led on when we reached 100 or more meters
 SYSCTL_RCGCGPIO_R |=0x20;
 while ((SYSCTL_PRGPIO_R&0x20)==0);
 GPIO_PORTF_LOCK_R  =	GPIO_LOCK_KEY;
@@ -90,6 +91,11 @@ GPIO_PORTF_AFSEL_R &= ~(0x08);
 GPIO_PORTF_PCTL_R &= 0xFFFF0FFF;
 GPIO_PORTF_DEN_R |= 0x08;
 GPIO_PORTF_DIR_R |= 0x08;
+
+}
+
+void GreenLED_Status(uint8_t distance){ // this function turns green led on when we reached 100 or more meters
+
 	if(distance>=100){
 GPIO_PORTF_DATA_R |= 0x08;	
 	}
