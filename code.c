@@ -5,6 +5,19 @@ void LCD_Command(unsigned char );
 void LCD_Data(unsigned char );
 void delay_micro(int );
 void delay_milli(int );
+
+
+
+
+
+
+
+
+
+
+
+
+
 //function Prototype for LED
 void GreenLED_Status(int );
 
