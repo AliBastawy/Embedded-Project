@@ -11,8 +11,10 @@ void delay_milli(int );
 ///////////////////////////
 //Global variable needed for LCD functions
 int distanceInInteger =0;
-char distanceInString [3] ={0};
+char distanceInString [10] ={0};
 int  distanceInArray [3] ={0};
+int distanceDoublePart=0;
+
 ////////////////////////////////
 //Global Varible need for all the functions
 float commultiveDistance =166.985;     //set it for many values for testing
@@ -116,14 +118,14 @@ void displayDistance(){
 	
 	LCD_Command(0xC0);  // second line command
 
-	for(i = 0; i<6;i++){
+	for(i = 0; i<3;i++){
 		LCD_Data(' ');           //only spaces to start from second half
 		delay_milli(1);
 	}
 			
 	DistanceToString();         // convert commulative distance to string
 
-	for(i = 0; i<3;i++){
+	for(i = 0; i<5;i++){
  		LCD_Data(distanceInString[i]);   //outputing commulative distance sting
 		delay_milli(1);
 	}
@@ -136,13 +138,13 @@ void displayDistance(){
 	delay_milli(500);	
 }
 
-void reverse(int length){
+void reverse(){
 	/*this function reverse the int array to get each position right when display and it add each intger to '0' which conver the sum to charchter
 	and store it in char array to be displayed on LCD
 	
 	*/
     int i = 0;
-	  int j = length-1;
+	  int j = 2;
 	
     while (j>=0) {
         distanceInString[i] = distanceInArray[j]+ '0';
@@ -160,7 +162,9 @@ void DistanceToString() {
 	
 		*/
 	
-	int i =0;	 
+	int i =0;
+        //distancedoublePart = ((distance- distanceIntegerPart)*10); //we should get the double part by this way but float have soe issues 
+
 	distanceInInteger = (int) commultiveDistance;	
 	  	
     while (distanceInInteger!=0) {
@@ -175,6 +179,8 @@ void DistanceToString() {
 		}
 		
     reverse(i);
+    distanceInString[i++] = '.';
+    distanceInString[i++] = distanceDoublePart+ '0';
 }
 
 
