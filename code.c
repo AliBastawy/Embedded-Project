@@ -8,7 +8,7 @@
 #define GPIO_LOCK_KEY           0x4C4F434B  // Unlocks the GPIO_CR register
 #define d2r			 (3.14 / 180.0)
 #define R 			6371
-
+#define delay2			2000
 //function Prototype for LCD
 void displayDistance(void);
 void DistanceToString(void);
