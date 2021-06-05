@@ -3,77 +3,70 @@
 #include <stdio.h>
 #include <math.h>
 
+//defines
 #define SYSCTL_RCGCGPIO_R       (*((volatile unsigned long *)0x400FE608))
 #define SYSCTL_PRGPIO_R         (*((volatile unsigned long *)0x400FEA08))
 #define GPIO_LOCK_KEY           0x4C4F434B  // Unlocks the GPIO_CR register
 #define d2r			 (3.14 / 180.0)
 #define R 			6371
 #define delay2			2000
+
 //function Prototype for LCD
+void LCD_Init(void)
 void displayDistance(void);
 void DistanceToString(void);
-void reverse();
+void reverse(void);
 void LCD_Command(unsigned char );
 void LCD_Data(unsigned char );
 void delay_micro(int );
 void delay_milli(int );
-///////////////////////////
+//function Prototype for LED
+void GreenLED_Status();
+void GreenLed_Inti();
+//function Prototype for Calculating the distance
+void calculateStartingPoint(void);
+void readNewDataFromGPS(void);
+void calculateDistance(void);
+float haversine(void)
+//Fuction prototype for Gps 	
+void GPS_Init(void);
+////////////////////////////////////////////
+
+//Global Varible needed for all the functions
+float commultiveDistance =166.985;     //set it for many values for testing
 //Global variable needed for LCD functions
 int distanceInInteger =0;
 char distanceInString [5] ={0};
 int  distanceInArray [3] ={0};
 int distanceDoublePart=0;
-double latitude;
-double longitude;
-double previouslat;
-double previouslong;
-double Totaldistance;
-////////////////////////////////
-//Global Varible needed for all the functions
-float commultiveDistance =166.985;     //set it for many values for testing
-/////////////////////////////////
-//function Prototype for LED
-void GreenLED_Status();
-void GreenLed_Inti();
-//////////////////////////////////
+//Global variable needed for calculateDistance function
+float latitude=0;
+float longitude=0;
+float previousLat=0;
+float previousLong=0;
+//////////////////////////////////////////////////////
 
 
 
 
-// to calculate the distance 
 
-void distance(){
-
-delay_milli(delay2);                //function to make delay(delay2 = 2000 ms defined in the header file) between  the readings of the GPS
-
-ReadData();	                // to set the new latitude and longitude from the GPS
-
-Totaldistance += haversine();	// haversine is a function to calculate distance between 2 locations
-
-previouslat = latitude; 		
-previouslong = longitude;
-	
-
-}
-
-
-
-
-// to calculate the distance between 2 locations 
-
-double haversine()
+//////////////    main function
+int main()
 {
-    double dlong = (longitude - previouslong) * d2r;// d2r is a constant to convert to radian defined in the header
-    double dlat = (latitude - previouslat) * d2r;
-    double a = pow(sin(dlat/2.0), 2) + cos(previouslat*d2r) * cos(latitude*d2r) * pow(sin(dlong/2.0), 2);
-    double c = 2 * atan2(sqrt(a), sqrt(1-a));
-    double d = R * c;		// R is the radius of the Earth Defined in the header file  
-
-    return d * 1000;
-}
-
-
-
+	SCB->CPACR |= ((3UL << 10*2) | (3UL << 11*2) );	 //to force keil to support floating point representation
+	
+	GPS_Init();
+	calculateStartingPoint();
+	while(1){
+		calculateDistance();
+	}
+	
+	displayDistance();
+  	GreenLED_Status();
+  
+}	
+	
+///////////////////////////////////////////////////////////////////   LCD functions //////////////////////////////////////////////////	
 void LCD_Init(void){
 	
 	/*
@@ -113,64 +106,7 @@ void LCD_Init(void){
 	LCD_Command(0x01);   //clear screen command
 }
 
-void GPS_Init()
-{ 	// Initialize Port A0 and A1 to be used as UART for GPS
-	
-	SYSCTL_RCGCUART_R |= 0x0001; // activate UART0
-	SYSCTL_RCGCUART_R |= 0x0001; // activate port A
-	UART0_CTL_R &= ~0x0001; // disable UART
-	
-	// Buad Rate = 9600, UART System Clock = 16 MHz
-	UART0_IBRD_R = 104; // IBRD = int (16*10^6 / (16 * 9600))
-	UART0_FBRD_R = 11; // FBRD = int (Decimal *64 + 0.5) 
-	
-	UART0_LCRH_R = 0x0070; // Enable FIFO & 8-bit length -> 01110000
-	UART0_CTL_R = 0x0201; // Enable Rx and UART
-	
-	GPIO_PORTA_AMSEL_R &= ~0x03; // NO ANALOG on pin PA1-0
-	GPIO_PORTA_DEN_R |= 0x03; // Enable Digital on PA1-0
-	GPIO_PORTA_AFSEL_R |= 0x03; // Alternate functions of PA1-0 
-	GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R &~ 0x00000011) + 0x00000011; // Enable U0Rx AND U0Tx
-
-}
-
-
-
-
-void GreenLed_Inti(){  	// Initialize PF3  to be used as Green Led
-
-SYSCTL_RCGCGPIO_R |=0x20;
-while ((SYSCTL_PRGPIO_R&0x20)==0);
-GPIO_PORTF_LOCK_R  =	GPIO_LOCK_KEY;
-GPIO_PORTF_CR_R |=0x08;
-GPIO_PORTF_AMSEL_R &= ~(0x08);
-GPIO_PORTF_AFSEL_R &= ~(0x08);
-GPIO_PORTF_PCTL_R &= 0xFFFF0FFF;
-GPIO_PORTF_DEN_R |= 0x08;
-GPIO_PORTF_DIR_R |= 0x08;
-
-}
-
-void GreenLED_Status(){ // this function turns green led on when we reached 100 or more meters
-
-	if(commultiveDistance>=100){
-           GPIO_PORTF_DATA_R |= 0x08;	
-	}
-}
-	
-
-//main
-int main()
-{
-SCB->CPACR |= ((3UL << 10*2) | (3UL << 11*2) ); //to force keil to support floating point representation
-
-  distance();
-  GPS_Init();
-  
-}	
-	
-	
-void displayDistance(){
+void displayDistance(void){
 	/*
 	this function only Prints on the LCD in the first line "  Distance:  " then i move the curser in the second line and make some spaces 
 	so that the distance as a number will be printed in the second line starting from the second half  , then we call DistanceToString function
@@ -217,7 +153,7 @@ void displayDistance(){
 	delay_milli(500);	
 }
 
-void reverse(){
+void reverse(void){
 	/*this function reverse the int array to get each position right when display and it add each intger to '0' which conver the sum to charchter
 	and store it in char array to be displayed on LCD
 	
@@ -233,7 +169,7 @@ void reverse(){
 }
   
 
-void DistanceToString() {		 
+void DistanceToString(void) {		 
 		/*
 			this function convert the commultive distance to c style string with an algorithm that first take the distance and use remainder operator to get
 			the last numeber and then store it in array we repet this untill we get all numbers in a int arary , but they are reversed so we use revered function
@@ -313,5 +249,97 @@ void delay_milli(int n){
 	}
 }
 
-  
+/////////////////////////////////////////////////   Calculating distance functions //////////////////////////////////////////////////
+void calculateStartingPoint(void){
+/* We assume we have this function that we will implement in 2nd Milestone that will take the starting point from the gps 
+after fix time and store the longitude and latitude in the globa variable  previiousLat , previousLong which we need in calculating the commulative distance
+*/
+}
+
+void readNewDataFromGPS(void){
+/*  We assume we have this function that we will implement in 2nd Milestone that will take longitude and latitude at the time which it has been called and store
+these values in the global variables longitude, latitude   . we need it to calculate the commulative distance
+*/
+}
+
+
+void calculateDistance(void){            
+/* the first statament in the main is calculateStartingPoint(); so we store this point in our global variable as mention above  then in the while loop we 
+call this function which first have a delay for some seconds here we assume it will be 2 seconds but it may be changed during testing then we call readNewDataFromGPS();	    
+which read new data and alse store them in the global variabels so now we have 2 longitude and 2 latitude and by haversine function that can calculate the distance betweeen
+2 long , 2 lat .Then we store this distance in globale variable commulativeDistance the we store the new data as previous data and as the while loop iterates we repeat the 
+funcitionallity and we could calculate the distance
+*/
+delay_milli(delay2);                //function to make delay(delay2 = 2000 ms defined in the header file) between  the readings of the GPS
+
+readNewDataFromGPS();	                // to set the new latitude and longitude from the GPS
+
+commultiveDistance += haversine();	// haversine is a function to calculate distance between 2 locations
+
+previousLat = latitude; 		
+previousLong = longitude;
+	
+
+}
+
+float haversine(void)
+{
+// to calculate the distance between 2 logitudes , 2 latitudes 
+	
+    float fLong = (longitude - previouslong) * d2r;// d2r is a constant to convert to radian defined in the header
+    float flat = (latitude - previouslat) * d2r;
+    float a = pow(sin(flat/2.0), 2) + cos(previouslat*d2r) * cos(latitude*d2r) * pow(sin(flong/2.0), 2);
+    float c = 2 * atan2(sqrt(a), sqrt(1-a));
+    float d = R * c;		// R is the radius of the Earth Defined in the header file  
+
+    return d * 1000;
+}
+
+
+
+///////////////////////////////////////////////////////   LED functions ////////////////////////////////////////////////////////
+
+void GreenLed_Inti(){  	// Initialize PF3  to be used as Green Led
+
+SYSCTL_RCGCGPIO_R |=0x20;
+while ((SYSCTL_PRGPIO_R&0x20)==0);
+GPIO_PORTF_LOCK_R  =	GPIO_LOCK_KEY;
+GPIO_PORTF_CR_R |=0x08;
+GPIO_PORTF_AMSEL_R &= ~(0x08);
+GPIO_PORTF_AFSEL_R &= ~(0x08);
+GPIO_PORTF_PCTL_R &= 0xFFFF0FFF;
+GPIO_PORTF_DEN_R |= 0x08;
+GPIO_PORTF_DIR_R |= 0x08;
+
+}
+
+void GreenLED_Status(){ // this function turns green led on when we reached 100 or more meters
+	GreenLed_Inti();
+	if(commultiveDistance>=100){
+           GPIO_PORTF_DATA_R |= 0x08;	
+	}
+}
+	
+////////////////////////////////////////////////////    GPS functions    ////////////////////////////////////////////////////// 
+void GPS_Init(void)
+{ 	// Initialize Port A0 and A1 to be used as UART for GPS
+	
+	SYSCTL_RCGCUART_R |= 0x0001; // activate UART0
+	SYSCTL_RCGCUART_R |= 0x0001; // activate port A
+	UART0_CTL_R &= ~0x0001; // disable UART
+	
+	// Buad Rate = 9600, UART System Clock = 16 MHz
+	UART0_IBRD_R = 104; // IBRD = int (16*10^6 / (16 * 9600))
+	UART0_FBRD_R = 11; // FBRD = int (Decimal *64 + 0.5) 
+	
+	UART0_LCRH_R = 0x0070; // Enable FIFO & 8-bit length -> 01110000
+	UART0_CTL_R = 0x0201; // Enable Rx and UART
+	
+	GPIO_PORTA_AMSEL_R &= ~0x03; // NO ANALOG on pin PA1-0
+	GPIO_PORTA_DEN_R |= 0x03; // Enable Digital on PA1-0
+	GPIO_PORTA_AFSEL_R |= 0x03; // Alternate functions of PA1-0 
+	GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R &~ 0x00000011) + 0x00000011; // Enable U0Rx AND U0Tx
+
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
