@@ -1,5 +1,8 @@
 #include "tm4c123gh6pm.h"
 #include "tm4c123.h"
+#define SYSCTL_RCGCGPIO_R       (*((volatile unsigned long *)0x400FE608))
+#define SYSCTL_PRGPIO_R         (*((volatile unsigned long *)0x400FEA08))
+#define GPIO_LOCK_KEY           0x4C4F434B  // Unlocks the GPIO_CR register
 
 //function Prototype for LCD
 void displayDistance(void);
