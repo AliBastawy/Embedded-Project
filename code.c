@@ -166,7 +166,7 @@ int main()
 {
 	SCB->CPACR |= ((3UL << 10*2) | (3UL << 11*2) );	 //to force keil to support floating point representation
 	
-	GPS_Init();
+	
 	calculateStartingPoint();
 	while(1){
 		calculateDistance();
