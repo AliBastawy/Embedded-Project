@@ -12,7 +12,7 @@
 #define delay2			2000
 
 //function Prototype for LCD
-void LCD_Init(void)
+void LCD_Init(void);
 void displayDistance(void);
 void DistanceToString(void);
 void reverse(void);
@@ -27,7 +27,7 @@ void GreenLed_Inti();
 void calculateStartingPoint(void);
 void readNewDataFromGPS(void);
 void calculateDistance(void);
-float haversine(void)
+float haversine(void);
 //Fuction prototype for Gps 	
 void GPS_Init(void);
 ////////////////////////////////////////////
@@ -59,7 +59,7 @@ int main()
 	calculateStartingPoint();
 	while(1){
 		calculateDistance();
-		if(commulativeDistance>=100){
+		if(commultiveDistance>=100){
 			break;
 		}
 	}
@@ -289,9 +289,9 @@ float haversine(void)
 {
 // to calculate the distance between 2 logitudes , 2 latitudes 
 	
-    float fLong = (longitude - previouslong) * d2r;// d2r is a constant to convert to radian defined in the header
-    float flat = (latitude - previouslat) * d2r;
-    float a = pow(sin(flat/2.0), 2) + cos(previouslat*d2r) * cos(latitude*d2r) * pow(sin(flong/2.0), 2);
+    float fLong = (longitude - previousLong) * d2r;// d2r is a constant to convert to radian defined in the header
+    float fLat = (latitude - previousLat) * d2r;
+    float a = pow(sin(fLat/2.0), 2) + cos(previousLat*d2r) * cos(latitude*d2r) * pow(sin(fLong/2.0), 2);
     float c = 2 * atan2(sqrt(a), sqrt(1-a));
     float d = R * c;		// R is the radius of the Earth Defined in the header file  
 
