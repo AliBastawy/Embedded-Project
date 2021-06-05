@@ -1,5 +1,8 @@
 #include "tm4c123gh6pm.h"
 #include "tm4c123.h"
+#include <stdio.h>
+#include <math.h>
+
 #define SYSCTL_RCGCGPIO_R       (*((volatile unsigned long *)0x400FE608))
 #define SYSCTL_PRGPIO_R         (*((volatile unsigned long *)0x400FEA08))
 #define GPIO_LOCK_KEY           0x4C4F434B  // Unlocks the GPIO_CR register
@@ -18,9 +21,13 @@ int distanceInInteger =0;
 char distanceInString [5] ={0};
 int  distanceInArray [3] ={0};
 int distanceDoublePart=0;
-
+double latitude;
+double longitude;
+double previouslat;
+double previouslong;
+double Totaldistance;
 ////////////////////////////////
-//Global Varible need for all the functions
+//Global Varible needed for all the functions
 float commultiveDistance =166.985;     //set it for many values for testing
 /////////////////////////////////
 //function Prototype for LED
@@ -28,7 +35,21 @@ void GreenLED_Status();
 void GreenLed_Inti();
 //////////////////////////////////
 
+// to calculate the distance 
 
+
+void distance(){
+
+delay_milli(delay2);                //function to make delay(delay2 = 2000 ms defined in the header file) between  the readings of the GPS
+
+ReadData();	                // to set the new latitude and longitude from the GPS
+
+Totaldistance += haversine();	// haversine is a function to calculate distance between 2 locations
+
+previouslat = latitude; 		
+previouslong = longitude;
+
+}
 void LCD_Init(void){
 	
 	/*
@@ -119,7 +140,7 @@ int main()
 {
 SCB->CPACR |= ((3UL << 10*2) | (3UL << 11*2) ); //to force keil to support floating point representation
 
-
+  distance();
   GPS_Init();
   
 }	
@@ -269,3 +290,4 @@ void delay_milli(int n){
 }
 
   
+
