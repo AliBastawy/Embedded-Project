@@ -87,6 +87,7 @@
 // UART registers (UART0)
 //
 //*****************************************************************************
+#define SYSCTL_RCGCUART_R       (*((volatile unsigned long *)0x400FE618))
 #define UART0_DR_R              (*((volatile unsigned long *)0x4000C000))
 #define UART0_RSR_R             (*((volatile unsigned long *)0x4000C004))
 #define UART0_ECR_R             (*((volatile unsigned long *)0x4000C004))
