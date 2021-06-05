@@ -33,17 +33,17 @@ void GPS_Init(void);
 ////////////////////////////////////////////
 
 //Global Varible needed for all the functions
-double commultiveDistance =166.985;     //set it for many values for testing
+double commultiveDistance =0;     //set it for many values for testing
 //Global variable needed for LCD functions
 int distanceInInteger =0;
 char distanceInString [5] ={0};
 int  distanceInArray [3] ={0};
 int distanceDoublePart=0;
 //Global variable needed for calculateDistance function
-double latitude=0;
-double longitude=0;
-double previousLat=0;
-double previousLong=0;
+double latitude=30.1056886;
+double longitude=31.3744314;
+double previousLat=30.1070844;
+double previousLong=31.3748067;
 //////////////////////////////////////////////////////
 
 
@@ -64,7 +64,7 @@ int main()
 		}
 	}
 	
-	displayDistance();
+	displayDistance(); // according to the given global longitudes and latitudes for  testing   the shown distance is 159.2 Meter in LCD which is correct
   	GreenLED_Status();
   
 }	
