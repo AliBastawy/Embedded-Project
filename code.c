@@ -59,6 +59,9 @@ int main()
 	calculateStartingPoint();
 	while(1){
 		calculateDistance();
+		if(commulativeDistance>=100){
+			break;
+		}
 	}
 	
 	displayDistance();
