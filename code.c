@@ -21,8 +21,8 @@ void LCD_Data(unsigned char );
 void delay_micro(int );
 void delay_milli(int );
 //function Prototype for LED
-void GreenLED_Status();
-void GreenLed_Inti();
+void GreenLED_Status(void);
+void GreenLed_Inti(void);
 //function Prototype for Calculating the distance
 void calculateStartingPoint(void);
 void readNewDataFromGPS(void);
@@ -302,7 +302,7 @@ double haversine(void)
 
 ///////////////////////////////////////////////////////   LED functions ////////////////////////////////////////////////////////
 
-void GreenLed_Inti(){  	// Initialize PF3  to be used as Green Led
+void GreenLed_Inti(void){  	// Initialize PF3  to be used as Green Led
 
 SYSCTL_RCGCGPIO_R |=0x20;
 while ((SYSCTL_PRGPIO_R&0x20)==0);
@@ -316,7 +316,7 @@ GPIO_PORTF_DIR_R |= 0x08;
 
 }
 
-void GreenLED_Status(){ // this function turns green led on when we reached 100 or more meters
+void GreenLED_Status(void){ // this function turns green led on when we reached 100 or more meters
 	GreenLed_Inti();
 	if(commultiveDistance>=100){
            GPIO_PORTF_DATA_R |= 0x08;	
