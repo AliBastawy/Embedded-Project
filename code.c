@@ -27,23 +27,23 @@ void GreenLed_Inti();
 void calculateStartingPoint(void);
 void readNewDataFromGPS(void);
 void calculateDistance(void);
-float haversine(void);
+double haversine(void);
 //Fuction prototype for Gps 	
 void GPS_Init(void);
 ////////////////////////////////////////////
 
 //Global Varible needed for all the functions
-float commultiveDistance =166.985;     //set it for many values for testing
+double commultiveDistance =166.985;     //set it for many values for testing
 //Global variable needed for LCD functions
 int distanceInInteger =0;
 char distanceInString [5] ={0};
 int  distanceInArray [3] ={0};
 int distanceDoublePart=0;
 //Global variable needed for calculateDistance function
-float latitude=0;
-float longitude=0;
-float previousLat=0;
-float previousLong=0;
+double latitude=0;
+double longitude=0;
+double previousLat=0;
+double previousLong=0;
 //////////////////////////////////////////////////////
 
 
@@ -285,15 +285,15 @@ previousLong = longitude;
 
 }
 
-float haversine(void)
+double haversine(void)
 {
 // to calculate the distance between 2 logitudes , 2 latitudes 
 	
-    float fLong = (longitude - previousLong) * d2r;// d2r is a constant to convert to radian defined in the header
-    float fLat = (latitude - previousLat) * d2r;
-    float a = pow(sin(fLat/2.0), 2) + cos(previousLat*d2r) * cos(latitude*d2r) * pow(sin(fLong/2.0), 2);
-    float c = 2 * atan2(sqrt(a), sqrt(1-a));
-    float d = R * c;		// R is the radius of the Earth Defined in the header file  
+    double fLong = (longitude - previousLong) * d2r;// d2r is a constant to convert to radian defined in the header
+    double fLat = (latitude - previousLat) * d2r;
+    double a = pow(sin(fLat/2.0), 2) + cos(previousLat*d2r) * cos(latitude*d2r) * pow(sin(fLong/2.0), 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1-a));
+    double d = R * c;		// R is the radius of the Earth Defined in the header file  
 
     return d * 1000;
 }
