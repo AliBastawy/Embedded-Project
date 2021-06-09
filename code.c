@@ -439,7 +439,7 @@ void GPS_Init(void)
 { 	// Initialize Port A0 and A1 to be used as UART for GPS
 	
 	SYSCTL_RCGCUART_R |= 0x0001; // activate UART0
-	SYSCTL_RCGCUART_R |= 0x0001; // activate port A
+	SYSCTL_RCGCGPIO_R |= 0x0001; // activate port A
 	UART0_CTL_R &= ~0x0001; // disable UART
 	
 	// Buad Rate = 9600, UART System Clock = 16 MHz
@@ -452,7 +452,7 @@ void GPS_Init(void)
 	GPIO_PORTA_AMSEL_R &= ~0x03; // NO ANALOG on pin PA1-0
 	GPIO_PORTA_DEN_R |= 0x03; // Enable Digital on PA1-0
 	GPIO_PORTA_AFSEL_R |= 0x03; // Alternate functions of PA1-0 
-	GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R &~ 0x00000011) + 0x00000011; // Enable U0Rx AND U0Tx
+	GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R & 0xFFFFFF00) + 0x00000011; // Enable U0Rx AND U0Tx
 
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
