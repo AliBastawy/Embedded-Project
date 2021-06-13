@@ -110,5 +110,21 @@ double  degreeToDecimal(double value){
     }
 
 
+int Restart(void){
+
+	if( (GPIO_PORTF_DATA_R & 0x01)==0 ){
+	
+		commultiveDistance = 0.0;
+		distancelimit=100.0;
+		return 1;
+		
+	}
+	else if ( (GPIO_PORTF_DATA_R & 0x10 )==0 ){
+			
+		return 0;
+		
+	}
+return 0;	
+}
 
 #endif
