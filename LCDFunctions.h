@@ -140,5 +140,25 @@ void delay_milli(int n){
 }
 
 
+void LCD_Display_Processing(void){
+	
+	int i;
+	char *string1="Processing....";
+
+
+	
+	LCD_Init();
+	LCD_Command(0x01);   //clear the screen
+	LCD_Command(0x80);   //write in line 1 
+	delay_milli(500);    // delay to micro controller as LCD is Slow so this delay to keep up with the Proccessor
+
+	for(i = 0; i<14;i++){
+		LCD_Data(string1[i]);  //outputing word Distance: 
+		delay_milli(1);
+	}
+
+			delay_milli(500);	
+		}
+
 
 #endif 
