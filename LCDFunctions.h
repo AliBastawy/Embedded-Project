@@ -160,5 +160,33 @@ void LCD_Display_Processing(void){
 			delay_milli(500);	
 		}
 
+void	LCD_Display_continue(void){
+
+	int i;
+	char *string1="Exceeded 100 m";
+	char *string2="Continue? Y/N";
+
+	
+	LCD_Init();
+	LCD_Command(0x01);   //clear the screen
+	LCD_Command(0x80);   //write in line 1 
+	delay_milli(500);    // delay to micro controller as LCD is Slow so this delay to keep up with the Proccessor
+
+	for(i = 0; i<14;i++){
+		LCD_Data(string1[i]);  //outputing word Distance: 
+		delay_milli(1);
+	}
+	
+	LCD_Command(0xC0);  // second line command
+	
+	
+	for(i = 0; i<13;i++){
+		LCD_Data(string2[i]);  //outputing word Distance: 
+		delay_milli(1);
+	}
+		delay_milli(500);	
+
+}
+
 
 #endif 
