@@ -59,4 +59,24 @@ these values in the global variables longitude, latitude   . we need it to calcu
 
 
 
+void calculateDistance(void){            
+/* the first statament in the main is calculateStartingPoint(); so we store this point in our global variable as mention above  then in the while loop we 
+call this function which first have a delay for some seconds here we assume it will be 2 seconds but it may be changed during testing then we call readNewDataFromGPS();	    
+which read new data and alse store them in the global variabels so now we have 2 longitude and 2 latitude and by haversine function that can calculate the distance betweeen
+2 long , 2 lat .Then we store this distance in globale variable commulativeDistance the we store the new data as previous data and as the while loop iterates we repeat the 
+funcitionallity and we could calculate the distance
+*/
+delay_milli(delay2);                //function to make delay(delay2 = 2000 ms defined in the header file) between  the readings of the GPS
+
+readNewDataFromGPS();	                // to set the new latitude and longitude from the GPS
+
+commultiveDistance += haversine();	// haversine is a function to calculate distance between 2 locations
+
+previousLat = latitude; 		
+previousLong = longitude;
+	
+
+}
+
+
 #endif 
