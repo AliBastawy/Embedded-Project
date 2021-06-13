@@ -55,3 +55,40 @@ while(1){
 		}
 		
 }
+	
+	
+Reached:
+
+
+
+LCD_Display_Reached();		         
+
+delay_milli(3000);	
+
+displayDistance();	// to put total distance on the lcd and time taken 
+ 
+delay_milli(6000);
+ 
+LCD_Display_Restart();
+
+
+while(1){
+
+	restart = Restart();
+	if (restart== 1 )	{// function to make the gps repeat the restart and turn off green led led and lcd 
+		restart=2;
+		goto StartPoint1;
+		
+	}
+	else if (restart==0){
+	break;	
+	}
+		
+}
+
+LCD_Command(0x01);   //clear screen command
+return 0;
+
+}
+	
+
