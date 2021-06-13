@@ -92,6 +92,22 @@ void displayDistance(void){
 	delay_milli(500);	
 }
 
+void reverse(void){
+	/*this function reverse the int array to get each position right when display and it add each intger to '0' which conver the sum to charchter
+	and store it in char array to be displayed on LCD
+	
+	*/
+    int i = 0;
+	  int j = 2;
+	
+    while (j>=0) {
+        distanceInString[i] = distanceInArray[j]+ '0';
+        i++;
+        j--;
+    }
+}
+  
+
 void LCD_Command(unsigned char command){
 	GPIO_PORTA_DATA_R &= ~0xE0;    //set R0=0, Rw=0 , E=0 to enable writing to command register in LCD
 	GPIO_PORTB_DATA_R = command;   //assign command to portB 
