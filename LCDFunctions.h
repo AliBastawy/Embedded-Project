@@ -265,4 +265,37 @@ void	LCD_Display_calc(void){
 
 }
 
+
+void LCD_Display_Reached(void){
+	
+		
+	int i;
+	char *string1="   You Have   ";
+	char *string2="    Reached    ";
+	
+
+	
+	LCD_Init();
+	LCD_Command(0x01);   //clear the screen
+	LCD_Command(0x80);   //write in line 1 
+	delay_milli(500);    // delay to micro controller as LCD is Slow so this delay to keep up with the Proccessor
+
+	for(i = 0; i<14;i++){
+		LCD_Data(string1[i]);  //outputing word Distance: 
+		delay_milli(1);
+	}
+
+	LCD_Command(0xC0);  // second line command
+	
+		
+		
+	for(i = 0; i<15;i++){
+		LCD_Data(string2[i]);  //outputing word Distance: 
+		delay_milli(1);
+	}
+	
+		delay_milli(500);	
+}
+
+
 #endif 
