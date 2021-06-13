@@ -79,4 +79,19 @@ previousLong = longitude;
 }
 
 
+double haversine(void)
+{
+// to calculate the distance between 2 logitudes , 2 latitudes 
+	
+    double fLong = (longitude - previousLong) * d2r;// d2r is a constant to convert to radian defined in the header
+    double fLat = (latitude - previousLat) * d2r;
+    double a = pow(sin(fLat/2.0), 2) + cos(previousLat*d2r) * cos(latitude*d2r) * pow(sin(fLong/2.0), 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1-a));
+    double d = R * c;		// R is the radius of the Earth Defined in the header file  
+
+    return d * 1000;
+}
+
+
+
 #endif 
