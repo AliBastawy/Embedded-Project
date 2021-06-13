@@ -33,4 +33,30 @@ char UART5_read(void){
 }
 
 
+void GPSbufferUpdate(void){
+	int flag=0;
+	char c;
+	int i;
+	
+	while(flag!=1){
+				for(i =0;i<bufferLen;i++){
+					c = UART5_read();
+					if(c=='\n' || c=='\r'){ 
+						break;
+					}
+					else{
+						buffer[i]=c;
+						if(i<6)buffer6[i]=c;
+					}
+				}
+				
+				if(strcmp(buffer6, "$GPGGA")==0){
+					strcpy(GPGGALine,buffer);
+					flag=1;
+				}
+	}
+
+}
+
+
 #endif
