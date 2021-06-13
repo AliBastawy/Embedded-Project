@@ -82,6 +82,23 @@ void Turning_ON_GPS(void){
 
  }
 
+void GPS_Fixed(void){
+	while(1){		
+		char *token;
+		GPSbufferUpdate();
+		
+		token = strtok(GPGGALine,",");
+		token = strtok(NULL,",");
+		token = strtok(NULL,",");
+		
+		fixed=atoi(token);
+		
+		if(fixed!=0){
+			break;
+		}
+	}
+}
+
 
 
 #endif
