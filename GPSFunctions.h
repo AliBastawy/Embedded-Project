@@ -100,5 +100,15 @@ void GPS_Fixed(void){
 }
 
 
+double  degreeToDecimal(double value){
+    double decimal = (int)( value/100);
+    double minuite = value - decimal*100;
+    decimal += (minuite / 60);
+    
+    return decimal;
+    
+    }
+
+
 
 #endif
