@@ -92,4 +92,18 @@ void displayDistance(void){
 	delay_milli(500);	
 }
 
+void LCD_Command(unsigned char command){
+	GPIO_PORTA_DATA_R &= ~0xE0;    //set R0=0, Rw=0 , E=0 to enable writing to command register in LCD
+	GPIO_PORTB_DATA_R = command;   //assign command to portB 
+	
+	GPIO_PORTA_DATA_R |= 0x80;
+	delay_micro(0);
+	GPIO_PORTA_DATA_R &= ~0x80;    //assigning enpulse to Enable 
+	
+	if(command <4){
+		delay_micro(2);
+	}else{
+		delay_micro(37);
+	}
+}
 #endif 
