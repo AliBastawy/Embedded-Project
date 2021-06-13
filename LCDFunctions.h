@@ -45,5 +45,29 @@ void LCD_Init(void){
 }
 
 
+void displayDistance(void){
+	/*
+	this function only Prints on the LCD in the first line "  Distance:  " then i move the curser in the second line and make some spaces 
+	so that the distance as a number will be printed in the second line starting from the second half  , then we call DistanceToString function
+	as LCD only output charchters so we need to convert the global variable  commulativeDistance which holds the total distance coverd to string
+	then display it on the screen
+	
+	*/
+	
+	int i;
+	char *string1="Distance:";
+	char *string2=" Meter";
+
+	
+	LCD_Init();
+	LCD_Command(0x01);   //clear the screen
+	LCD_Command(0x80);   //write in line 1 
+	delay_milli(500);    // delay to micro controller as LCD is Slow so this delay to keep up with the Proccessor
+
+	for(i = 0; i<9;i++){
+		LCD_Data(string1[i]);  //outputing word Distance: 
+		delay_milli(1);
+	}
+
 
 #endif 
