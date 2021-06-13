@@ -21,5 +21,13 @@ void PortFF_Int(void){
 }
 
 
+void RedLED_Status(void){
+	
+	GPIO_PORTF_DATA_R &= ~ (0x08);
+	GPIO_PORTF_DATA_R |= 0x02;
+
+	
+}
+
 
 #endif
