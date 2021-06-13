@@ -76,5 +76,20 @@ void displayDistance(void){
 		delay_milli(1);
 	}
 			
+	
+	DistanceToString();         // convert commulative distance to string
+
+	for(i = 0; i<3;i++){
+ 		LCD_Data(distanceInString[i]);   //outputing commulative distance sting
+		delay_milli(1);
+	}
+	
+	for(i = 0; i<6;i++){
+		LCD_Data(string2[i]);         //outputing Meter
+		delay_milli(1);
+	}
+
+	delay_milli(500);	
+}
 
 #endif 
