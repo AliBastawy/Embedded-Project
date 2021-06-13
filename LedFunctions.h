@@ -29,5 +29,13 @@ void RedLED_Status(void){
 	
 }
 
+void GreenLED_Status(){
+
+	GPIO_PORTF_DATA_R &= ~ (0x02);
+
+	GPIO_PORTF_DATA_R |= 0x08;
+
+}
+
 
 #endif
