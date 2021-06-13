@@ -27,4 +27,10 @@ void UART5_Init(void){
 }
 
 
+char UART5_read(void){
+    while((UART5_FR_R & 0x10) == 0x10);
+    return UART5_DR_R & 0xFF;
+}
+
+
 #endif
