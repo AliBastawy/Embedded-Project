@@ -69,5 +69,12 @@ void displayDistance(void){
 		delay_milli(1);
 	}
 
+	LCD_Command(0xC0);  // second line command
+
+	for(i = 0; i<3;i++){
+		LCD_Data(' ');           //only spaces to start from second half
+		delay_milli(1);
+	}
+			
 
 #endif 
