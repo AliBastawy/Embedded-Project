@@ -121,6 +121,24 @@ void LCD_Data(unsigned char data){
 }
 
 
+void delay_micro(int n){
+	//function that delay the processor with approximately the parameter microseconds 
+	int i,j;
+	for(i=0 ; i<n ; i++){
+			for(j=0;j<3;j++){
+			}
+	}
+}
+
+void delay_milli(int n){
+	//function that delay the processor with approximately the parameter milliseconds  
+	int i,j;
+	for(i=0 ; i<n ; i++){
+			for(j=0;j<3180;j++){
+			}
+	}
+}
+
 
 
 #endif 
