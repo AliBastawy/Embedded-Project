@@ -59,4 +59,29 @@ void GPSbufferUpdate(void){
 }
 
 
+void Turning_ON_GPS(void){
+	 
+	if ((startlong==0.0)&&(startlat==0.0)){
+		
+		LCD_Display_Processing();			// display >>> Processing Data
+		
+		PortFF_Int();	// initiate port F
+ 
+	
+    UART5_Init();
+						// initiate the GPS port
+		
+	 	GPS_Fixed();	//  the delay1=3800 ms defined in the header 
+ 
+	}
+ 
+	RedLED_Status();		// function to turn red light on when done and keep it ON
+ 
+	LCD_Display_calc();			// display >>>> Calculating Distance 
+ 
+
+ }
+
+
+
 #endif
