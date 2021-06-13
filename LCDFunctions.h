@@ -108,6 +108,36 @@ void reverse(void){
 }
   
 
+void DistanceToString(void) {		 
+		/*
+			this function convert the commultive distance to c style string with an algorithm that first take the distance and use remainder operator to get
+			the last numeber and then store it in array we repet this untill we get all numbers in a int arary , but they are reversed so we use revered function
+			to restore it correctly
+	
+		*/
+	
+	int i =0;
+    
+
+	distanceInInteger = (int) commultiveDistance;	
+//	distanceDoublePart = ((commultiveDistance- distanceInInteger)*10); //we should get the double part by this way but float have soe issues 
+
+	
+    while (distanceInInteger!=0) {
+        distanceInArray[i] = (distanceInInteger % 10);
+        distanceInInteger /= 10;
+				i++;
+    }
+
+		while(i<3){
+			distanceInArray[i] =0;    // if the number is less than 3 number i will apper like this  090,044
+			i++;
+		}
+		
+    reverse();
+ 
+}
+
 void LCD_Command(unsigned char command){
 	GPIO_PORTA_DATA_R &= ~0xE0;    //set R0=0, Rw=0 , E=0 to enable writing to command register in LCD
 	GPIO_PORTB_DATA_R = command;   //assign command to portB 
