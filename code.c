@@ -47,7 +47,7 @@ while(1){
 			
 		}
 		
-		if(( (GPIO_PORTF_DATA_R & 0x01)||(GPIO_PORTF_DATA_R & 0x10 ) )==0 ){
+		if( ( (GPIO_PORTF_DATA_R & 0x01)== 0 )  || ( (GPIO_PORTF_DATA_R & 0x10 ) == 0 )  ){
 			
 			GreenLED_Status();
 			break;
